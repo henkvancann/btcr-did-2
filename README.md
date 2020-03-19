@@ -127,6 +127,17 @@ cd build
 cmake ..
 make
 ```
+#### Process interrupts
+This might fail:
+```
+cmake  .. 
+```
+
+I added '-DPYTHON_EXECUTABLE=${PYTHON2}', so it is going to be
+
+```
+cmake .. -DPYTHON_EXECUTABLE=${PYTHON2}
+```
 
 If all goes well, you should be able to run txid2txref and
 createBtcrDid.
