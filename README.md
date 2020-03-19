@@ -152,7 +152,7 @@ $ ./src/txid2txref --help
 Usage: txid2txref [options] <txid|txref|txref-ext>
 [...]
 
-> ./createBtcrDid --help
+> ./src/createBtcrDid --help
 Usage: createBtcrDid [options] <inputXXX> <changeAddress> <private key> <fee> <ddoRef>
 [...]
 ```
