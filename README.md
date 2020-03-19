@@ -45,6 +45,8 @@ $ sudo apt-get install make cmake gcc g++ libcurl4-openssl-dev libjsoncpp-dev li
 $ sudo apt-get install curl wget unzip git
 ```
 
+#### Process interrupts on pre-requirements
+
 ### Build and Install libbitcoinrpc
 
 Next you need to build and install `libbitcoinrpc`. (The instructions
@@ -127,7 +129,9 @@ cd build
 cmake ..
 make
 ```
-#### Process interrupts
+#### Process interrupts on btcr-DID-method
+Be sure of your working directory at all times. The install process relies on the `build` subdirectory of the package at hand.
+
 This might fail:
 ```
 cmake  .. 
@@ -139,6 +143,7 @@ I added '-DPYTHON_EXECUTABLE=${PYTHON2}', so it is going to be
 cmake .. -DPYTHON_EXECUTABLE=${PYTHON2}
 ```
 
+### Test presence txid2txref and createBtcrDid
 If all goes well, you should be able to run txid2txref and
 createBtcrDid.
 
@@ -151,6 +156,65 @@ Usage: txid2txref [options] <txid|txref|txref-ext>
 Usage: createBtcrDid [options] <inputXXX> <changeAddress> <private key> <fee> <ddoRef>
 [...]
 ```
+
+#Docker specific instructions
+
+This command gives you the Docker container with Debian Stretch running. Be sure to substitute `myname` and `mytag`.
+
+```
+docker container run -it --name <myname>:<mytag> debian:stretch /bin/bash
+```
+
+### Install
+Follow the guidelines under "Building txid2txref and createBtcrDid"
+
+Don't use `Sudo`. In a container '`bash` CLI you are `root` by default.
+
+#### Process interrupts on Docker
+Be sure of your working directory at all times. The install process relies on the `build` subdirectory of the package at hand.
+
+Problems that might occur:
+
+A. Packages not found
+```
+apt-get install make 
+->
+"Unable to locate package make"
+```
+
+First try this:
+```
+apt-get update
+```
+and then try to install the packages you need.
+
+B. Vi not found
+```
+root@eb347e94fec4:/libbitcoinrpc-master# vi Makefile
+bash: vi: command not found
+```
+Next : Vi not installed? Detailed explanation: https://vitux.com/how-to-install-vim-editor-on-debian/ on how to proceed or just type:
+```
+apt-get install vim-tiny
+vi Makefile
+```
+
+C. Cmake outdated
+```
+root@b4fcd12e2b03:/libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/build# cmake ..
+CMake Error at CMakeLists.txt:1 (cmake_minimum_required):
+  CMake 3.8 or higher is required.  You are running version 3.7.2
+
+
+-- Configuring incomplete, errors occurred!
+```
+
+Install a newer version Cmake for Debian, for example via https://anglehit.com/how-to-install-the-latest-version-of-cmake-via-command-line/. Be careful to not use `Sudo`. ANd you might run into other dependencies trouble around `./bootstrap`. I needed to tweak it this way:
+```
+./bootstrap -- -DCMAKE_USE_OPENSSL=OFF
+```
+
+
 
 # Running txid2txref
 
