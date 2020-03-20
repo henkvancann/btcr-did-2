@@ -45,8 +45,6 @@ $ sudo apt-get install make cmake gcc g++ libcurl4-openssl-dev libjsoncpp-dev li
 $ sudo apt-get install curl wget unzip git
 ```
 
-#### Process interrupts on pre-requirements
-
 ### Build and Install libbitcoinrpc
 
 Next you need to build and install `libbitcoinrpc`. (The instructions
