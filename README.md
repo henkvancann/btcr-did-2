@@ -155,7 +155,7 @@ Usage: createBtcrDid [options] <inputXXX> <changeAddress> <private key> <fee> <d
 [...]
 ```
 
-#Docker specific instructions
+# Docker specific instructions
 
 This command gives you the Docker container with Debian Stretch running. Be sure to substitute `myname` and `mytag`.
 
