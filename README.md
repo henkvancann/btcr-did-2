@@ -384,7 +384,7 @@ cd /libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/bui
 From the `build` directory of your `btcr-DID-method-master`:
 
 ```
-./src/txid2txref --rpchost=127.0.0.1 --rpcuser=lndh --rpcpassword=lightningh --rpcport=18333 --config /libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/build/.bitcoin/bitcoin.conf  f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107
+./src/txid2txref --rpchost=127.0.0.1 --rpcuser=<your username> --rpcpassword=<your password> --rpcport=18333 --config /libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/build/.bitcoin/bitcoin.conf  f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107
 ```
 
 # Running createBtcrDid
