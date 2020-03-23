@@ -212,7 +212,46 @@ Install a newer version Cmake for Debian, for example via https://anglehit.com/h
 ./bootstrap -- -DCMAKE_USE_OPENSSL=OFF
 ```
 
+### Start again after Exit
 
+Suppose you have succeeded so far and exited the prompt in the container and stopped container you created. To get back to where you were, type:
+```
+docker start -i <your_container_tag>
+
+cd /libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/build
+```
+Celebrate this first step of re-iteration, but we're not there yet.
+
+### Run with bind-mount
+Bind mounts: A bind mount is a file or folder stored anywhere on the container host filesystem, mounted into a running container. The main difference a bind mount has from a volume is that since it can exist anywhere on the host filesystem, processes outside of Docker can also modify it. (from: https://4sysops.com/archives/introduction-to-docker-bind-mounts-and-volumes/)
+
+"processes outside of Docker can also modify it" That is what we need because bitcoind Testnest3 fills the local node with blocks.
+
+#### In a bash file
+```
+CONF_SRC=<your path to Testnet3 dir>; \
+CONF_DST=/libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/<your Testnet3 mount dir>; \
+
+docker run -it --name <your container name> \
+  --mount type=bind,src=${CONF_SRC},dst=${CONF_DST} \
+  <your imagename>:<your imagetag>
+```
+
+#### Unpackaging it in one CLI command
+```
+docker run -it --name <your container name> \
+  --mount type=bind,src=<your path to Testnet3 dir>,dst=/libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/<your Testnet3 mount dir> \
+   <your imagename>:<your imagetag>
+```
+
+For example:
+```
+docker run -it --name didbtcr2  --mount type=bind,src=/Users/hvancann/app-container/.bitcoin,dst=/libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/.bitcoin   didbtcr2:latest
+```
+Or to get the ports right in one go:
+```
+docker run -it -p 5000:5000 --name didbtcr  --mount type=bind,src=/Users/hvancann/app-container/.bitcoin,dst=/libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/.bitcoin   didbtcr2:latest
+```
 
 # Running txid2txref
 
@@ -312,6 +351,41 @@ $ ./src/txid2txref txtest1:8yv2-xzpq-qpqq-8x3w-2w
 }
 ```
 
+## Command txid2txref to run in Docker
+We use the same example as above: txid = f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107
+
+### Using the --config switch of txid2txref
+This the relevant part of your `bitcoin.conf` file:
+```
+rpcuser=<your user>
+rpcpassword=<your password>
+
+rpcallowip=127.0.0.1
+
+testnet=1
+
+txindex=1
+
+rpcbind=127.0.0.1
+rpcport=18333
+```
+
+Go to the build directory and exute 
+```
+cd /libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/build #this path results from the main install instructions
+
+./src/txid2txref --config <the full path to your bind mount (see above)>/.bitcoin/bitcoin.conf f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107
+```
+
+### Using the direct switches of txid2txref
+
+cd /libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/build
+
+From the `build` directory of your `btcr-DID-method-master`:
+
+```
+./src/txid2txref --rpchost=127.0.0.1 --rpcuser=lndh --rpcpassword=lightningh --rpcport=18333 --config /libbitcoinrpc-master/bitcoin-api-cpp-master/build/btcr-DID-method-master/build/.bitcoin/bitcoin.conf  f8cdaff3ebd9e862ed5885f8975489090595abe1470397f79780ead1c7528107
+```
 
 # Running createBtcrDid
 
