@@ -159,6 +159,7 @@ Usage: createBtcrDid [options] <inputXXX> <changeAddress> <private key> <fee> <d
 
 To build your own Docker image use this section. If you want to use the resulting Docker image, then get it from a trusted resource on Dockerhub and head over to [Unpackaging it in one CLI command](https://github.com/henkvancann/btcr-did-2#unpackaging-it-in-one-cli-command) below.
 
+## Do it yourself
 This command gives you the Docker container with Debian Stretch running. Be sure to substitute `myname` and `mytag`.
 
 ```
