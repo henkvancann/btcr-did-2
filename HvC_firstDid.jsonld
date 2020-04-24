@@ -1,0 +1,12 @@
+{
+  "@context": "http://schema.org/",
+  "@graph": [
+    {
+      "id": "_:b0",
+      "type": "Person",
+      "jobTitle": "DID builder",
+      "name": "Henk van Cann",
+      "url": "http://www.henkvancann.com"
+    }
+  ]
+}
